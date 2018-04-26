@@ -129,6 +129,16 @@ namespace UCI {
         myprintf("Set cfg_overhead to %d.\n", cfg_overhead);
     }
 
+    void on_relative_ratio(const Option& o) {
+        cfg_relative_ratio = o;
+
+        if (cfg_relative_ratio) {
+            myprintf("Turned on relative ratio time management.\n");
+        } else {
+            myprintf("Turned off relative ratio time management.\n");
+        }
+    }
+
     void on_nodes_as_vistis(const Option& o) {
         cfg_go_nodes_as_visits = o;
 
@@ -159,6 +169,7 @@ namespace UCI {
         o["SlowMover"]              << Option(cfg_slowmover, 1, std::numeric_limits<int>::max(), on_slowmover);
         o["Overhead"]               << Option(cfg_overhead, 0, 1000, on_overhead);
         o["Resignpct"]              << Option(cfg_resignpct, 0, 100, on_resignpct);
+        o["Relative ratio time management"]        << Option(cfg_relative_ratio, on_relative_ratio);
         o["Go Nodes Visits"]        << Option(cfg_go_nodes_as_visits, on_nodes_as_vistis);
     }
 

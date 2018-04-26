@@ -65,6 +65,7 @@ float cfg_puct;
 float cfg_softmax_temp;
 float cfg_fpu_reduction;
 bool cfg_fpu_dynamic_eval;
+bool cfg_relative_ratio;
 std::string cfg_weightsfile;
 std::string cfg_logfile;
 std::string cfg_supervise;
@@ -99,6 +100,7 @@ void Parameters::setup_default_parameters() {
     cfg_timemanage = true;
     cfg_slowmover = 125;
     cfg_overhead = 0;
+    cfg_relative_ratio = true;
     cfg_logfile_handle = nullptr;
     cfg_quiet = false;
     cfg_rng_seed = 0;

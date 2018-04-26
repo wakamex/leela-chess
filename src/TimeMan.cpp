@@ -47,7 +47,8 @@ int remaining(int myTime, int movesToGo, int ply, int theirTime) {
     double moveImportance = move_importance(ply) * cfg_slowmover / 100; // Slow Mover Ratio
     double otherMovesImportance = 0;
 
-    //moveImportance = moveImportance * myTime / theirTime; // Relative Ratio
+    if (cfg_relative_ratio)
+        moveImportance = moveImportance * myTime / theirTime; // Relative Ratio
 
     for (int i = 1; i < movesToGo; ++i)
          otherMovesImportance += move_importance(ply + 2 * i);
@@ -78,7 +79,7 @@ void TimeManagement::init(Color us, int ply) {
     int hypMyTime = std::max (0, Limits.time[us] + (Limits.inc[us] - moveOverhead) * MoveHorizon);
     int hypTheirTime = std::max (0, Limits.time[~us] + (Limits.inc[~us] - moveOverhead) * MoveHorizon);
 
-    myprintf_so("Move Overhead %0.2f, Slow Mover %0.2f, ResignPct %0.2f, Relative Ratio %0.2f\n",cfg_overhead,cfg_slowmover,cfg_resignpct,hypMyTime/hypTheirTime);
+    myprintf_so("Move Overhead %d, Slow Mover %d, ResignPct %d, Relative Ratio %0.2f\n",cfg_overhead,cfg_slowmover,cfg_resignpct,hypMyTime/hypTheirTime);
 
     optimumTime = std::min(minThinkingTime + remaining(hypMyTime, MoveHorizon, ply, hypTheirTime), optimumTime);
     maximumTime = std::min(optimumTime * 7, maximumTime);
