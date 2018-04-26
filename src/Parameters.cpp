@@ -1,17 +1,17 @@
 /*
  This file is part of Leela Zero.
  Copyright (C) 2017 Gian-Carlo Pascutto
- 
+
  Leela Zero is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  Leela Zero is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with Leela Zero.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -52,6 +52,7 @@ int cfg_noise;
 int cfg_randomize;
 int cfg_timemanage;
 int cfg_slowmover;
+int cfg_overhead;
 int cfg_min_resign_moves;
 int cfg_root_temp_decay;
 uint64_t cfg_rng_seed;
@@ -92,15 +93,15 @@ void Parameters::setup_default_parameters() {
     cfg_fpu_dynamic_eval = true;
     cfg_root_temp_decay = 0;
     cfg_min_resign_moves = 20;
-    cfg_resignpct = 10;
+    cfg_resignpct = 0;
     cfg_noise = false;
     cfg_randomize = false;
     cfg_timemanage = true;
-    cfg_slowmover = 89;
+    cfg_slowmover = 125;
+    cfg_overhead = 0;
     cfg_logfile_handle = nullptr;
     cfg_quiet = false;
     cfg_rng_seed = 0;
     cfg_weightsfile = "weights.txt";
     cfg_go_nodes_as_visits = true;
 }
-

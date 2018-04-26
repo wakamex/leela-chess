@@ -22,6 +22,9 @@
 
 #include "TimeMan.h"
 #include "Parameters.h"
+#include "Utils.h"
+
+using namespace Utils;
 
 TimeManagement Time; // Our global time management object
 
@@ -39,10 +42,12 @@ double move_importance(int ply) {
     return pow((1 + exp((ply - XShift) / XScale)), -Skew) + DBL_MIN; // Ensure non-zero
 }
 
-int remaining(int myTime, int movesToGo, int ply) {
+int remaining(int myTime, int movesToGo, int ply, int theirTime) {
 
     double moveImportance = move_importance(ply) * cfg_slowmover / 100; // Slow Mover Ratio
     double otherMovesImportance = 0;
+
+    //moveImportance = moveImportance * myTime / theirTime; // Relative Ratio
 
     for (int i = 1; i < movesToGo; ++i)
          otherMovesImportance += move_importance(ply + 2 * i);
@@ -63,7 +68,7 @@ int remaining(int myTime, int movesToGo, int ply) {
 void TimeManagement::init(Color us, int ply) {
 
     int minThinkingTime = std::min(20, Limits.time[us] / 5);
-    int moveOverhead    = 30;
+    int moveOverhead    = cfg_overhead;
     int MoveHorizon     = Limits.movestogo ? std::min(Limits.movestogo - 1, 50) : 50;
 
     startTime   = Limits.startTime;
@@ -71,7 +76,10 @@ void TimeManagement::init(Color us, int ply) {
 
     // Calculate thinking time for hypothetical "moves to go"-value
     int hypMyTime = std::max (0, Limits.time[us] + (Limits.inc[us] - moveOverhead) * MoveHorizon);
+    int hypTheirTime = std::max (0, Limits.time[~us] + (Limits.inc[~us] - moveOverhead) * MoveHorizon);
 
-    optimumTime = std::min(minThinkingTime + remaining(hypMyTime, MoveHorizon, ply), optimumTime);
+    myprintf_so("Move Overhead %0.2f, Slow Mover %0.2f, ResignPct %0.2f, Relative Ratio %0.2f\n",cfg_overhead,cfg_slowmover,cfg_resignpct,hypMyTime/hypTheirTime);
+
+    optimumTime = std::min(minThinkingTime + remaining(hypMyTime, MoveHorizon, ply, hypTheirTime), optimumTime);
     maximumTime = std::min(optimumTime * 7, maximumTime);
 }
