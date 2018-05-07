@@ -79,8 +79,8 @@ void TimeManagement::init(Color us, int ply) {
     int hypMyTime = std::max (0, Limits.time[us] + (Limits.inc[us] - moveOverhead) * MoveHorizon);
     int hypTheirTime = std::max (0, Limits.time[~us] + (Limits.inc[~us] - moveOverhead) * MoveHorizon);
 
-    myprintf_so("Move Overhead %d, Slow Mover %d, ResignPct %d, Relative Ratio %0.2f\n",cfg_overhead,cfg_slowmover,cfg_resignpct,hypMyTime/hypTheirTime);
-
     optimumTime = std::min(minThinkingTime + remaining(hypMyTime, MoveHorizon, ply, hypTheirTime), optimumTime);
+    if (cfg_jjosh_patch==true)
+      optimumTime = std::min((int)(optimumTime * 1.5), maximumTime);
     maximumTime = std::min(optimumTime * 7, maximumTime);
 }

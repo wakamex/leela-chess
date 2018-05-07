@@ -139,7 +139,17 @@ namespace UCI {
         }
     }
 
-    void on_nodes_as_vistis(const Option& o) {
+    void on_jjosh_patch(const Option& o) {
+        cfg_jjosh_patch = o;
+
+        if (cfg_jjosh_patch) {
+            myprintf("Turned on jjosh patch.\n");
+        } else {
+            myprintf("Turned off jjosh patch.\n");
+        }
+    }
+
+    void on_nodes_as_visits(const Option& o) {
         cfg_go_nodes_as_visits = o;
 
         if (cfg_go_nodes_as_visits) {
@@ -170,7 +180,8 @@ namespace UCI {
         o["Overhead"]               << Option(cfg_overhead, 0, 1000, on_overhead);
         o["Resignpct"]              << Option(cfg_resignpct, 0, 100, on_resignpct);
         o["Relative ratio time management"]        << Option(cfg_relative_ratio, on_relative_ratio);
-        o["Go Nodes Visits"]        << Option(cfg_go_nodes_as_visits, on_nodes_as_vistis);
+        o["jjosh patch"]        << Option(cfg_jjosh_patch, on_jjosh_patch);
+        o["Go Nodes Visits"]        << Option(cfg_go_nodes_as_visits, on_nodes_as_visits);
     }
 
 /// operator<<() is used to print all the options default values in chronological

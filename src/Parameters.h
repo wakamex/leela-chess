@@ -25,6 +25,8 @@
 constexpr int MAXINT_DIV2 = std::numeric_limits<int>::max() / 2;
 extern bool cfg_allow_pondering;
 extern bool cfg_noinitialize;
+extern bool cfg_relative_ratio;
+extern bool cfg_jjosh_patch;
 extern int cfg_max_threads;
 extern int cfg_num_threads;
 extern int cfg_max_playouts;

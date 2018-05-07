@@ -294,6 +294,11 @@ size_t UCTSearch::prune_noncontenders() {
     }
     const auto min_required_visits =
         Nfirst - est_playouts_left();
+        if (cfg_jjosh_patch==true)
+          Nfirst - (int)(0.9*est_playouts_left());
+        else
+          Nfirst - est_playouts_left();
+
     auto pruned_nodes = size_t{0};
     for (const auto& node : m_root->get_children()) {
         const auto has_enough_visits =
@@ -526,6 +531,3 @@ void UCTSearch::set_visit_limit(int visits) {
         m_maxvisits = visits;
     }
 }
-
-
-
